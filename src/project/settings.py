@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.forms",
     # Project apps
     "accounts",
+    "units",
 ]
 
 
