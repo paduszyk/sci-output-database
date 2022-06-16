@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 mysqlclient = "*"
 python-dotenv = "*"
+pandas = "*"
+openpyxl = "*"
 
 [dev-packages]
 pre-commit = "*"
