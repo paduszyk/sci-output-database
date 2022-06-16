@@ -4,6 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+django = "*"
+mysqlclient = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pre-commit = "*"
