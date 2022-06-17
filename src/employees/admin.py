@@ -1,4 +1,6 @@
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.html import format_html
 from django.utils.text import capfirst
 
@@ -205,7 +207,6 @@ class EmployeeAdmin(admin.ModelAdmin):
     readonly_fields = ["id"]
     autocomplete_fields = ["user", "degree", "status", "discipline"]
     radio_fields = {"sex": admin.HORIZONTAL, "in_evaluation": admin.HORIZONTAL}
-    inlines = [EmploymentInline]
 
     list_display = [
         "id",
@@ -228,6 +229,30 @@ class EmployeeAdmin(admin.ModelAdmin):
         "user__email",
     ]
     ordering = ["id"]
+
+    def get_inlines(self, request, obj):
+        return [__class__.EmploymentInline] if hasattr(obj, "employment") else []
+
+    def response_add(self, request, obj, post_url_continue=None):
+        obj_url = '<a href="{}">{}</a>'.format(
+            reverse_lazy("admin:employees_employee_change", args=(obj.id,)),
+            str(obj),
+        )
+
+        self.message_user(
+            request,
+            message=format_html(
+                f"Pracownik &bdquo;{obj_url}&rdquo; został dodany pomyślnie.<br>"
+                "Uzupełnij dane na temat zatrudnienia."
+            ),
+            level=messages.INFO,
+        )
+        return redirect(
+            reverse_lazy(
+                "admin:employees_employment_change",
+                args=(obj.employment.id,),
+            ),
+        )
 
     @admin.display(
         description=capfirst(
