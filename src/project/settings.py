@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Project apps
     "accounts",
     "units",
+    "employees",
 ]
 
 
