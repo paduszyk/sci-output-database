@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.utils.text import capfirst
 
+from .forms import DepartmentAdminForm
 from .models import Department, Faculty, University
 
 
@@ -19,7 +21,7 @@ class UniversityAdmin(admin.ModelAdmin):
     inlines = [FacultyInLine]
 
     list_display = ["id", "name", "abbreviation"]
-    search_fields = ["name", "abbreviation"]
+    search_fields = ["id", "name", "abbreviation"]
 
 
 @admin.register(Faculty)
@@ -40,10 +42,10 @@ class FacultyAdmin(admin.ModelAdmin):
     inlines = [DepartmentInLine]
 
     list_display = ["id", "name", "abbreviation", "university__name"]
-    search_fields = ["name", "abbreviation", "university__name"]
+    search_fields = ["id", "name", "abbreviation"]
 
     @admin.display(
-        description=Faculty._meta.get_field("university").verbose_name,
+        description=capfirst(Faculty._meta.get_field("university").verbose_name),
         ordering="university__name",
     )
     def university__name(self, obj):
@@ -54,10 +56,12 @@ class FacultyAdmin(admin.ModelAdmin):
 class DepartmentAdmin(admin.ModelAdmin):
     """Admin options for the Department model."""
 
+    form = DepartmentAdminForm
+
     fieldsets = [
         (None, {"fields": ["id"]}),
         ("Informacje podstawowe", {"fields": ["name", "abbreviation"]}),
-        ("Jednostka nadrzędna", {"fields": ["faculty"]}),
+        ("Jednostka nadrzędna", {"fields": ["university", "faculty"]}),
     ]
     readonly_fields = ["id"]
     autocomplete_fields = ["faculty"]
@@ -69,17 +73,21 @@ class DepartmentAdmin(admin.ModelAdmin):
         "faculty__name",
         "faculty__university__name",
     ]
-    search_fields = ["name", "abbreviation", "university__name"]
+    search_fields = ["id", "name", "abbreviation"]
 
     @admin.display(
-        description=Department._meta.get_field("faculty").verbose_name,
+        description=capfirst(Department._meta.get_field("faculty").verbose_name),
         ordering="faculty__name",
     )
     def faculty__name(self, obj):
         return obj.faculty.name
 
     @admin.display(
-        description=Faculty._meta.get_field("university").verbose_name,
+        description=capfirst(
+            Department._meta.get_field("faculty")
+            .related_model._meta.get_field("university")
+            .verbose_name
+        ),
         ordering="faculty__university__name",
     )
     def faculty__university__name(self, obj):
