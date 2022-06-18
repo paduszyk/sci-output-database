@@ -18,7 +18,10 @@ class ContributionAdminForm(forms.ModelForm):
             return obj.name
 
     content_type = ContentTypeModelChoiceField(
-        queryset=ContentType.objects.filter(app_label="attainments"),
+        queryset=ContentType.objects.filter(
+            app_label="attainments",
+            model__in=["article", "grant", "patent"],
+        ),
         label="Rodzaj elementu",
         required=True,
         widget=forms.widgets.RadioSelect(attrs={"class": "radiolist"}),

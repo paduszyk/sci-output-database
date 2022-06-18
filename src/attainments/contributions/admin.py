@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.text import capfirst
 
 from .forms import ContributionAdminForm
 from .models import Author, Contribution
@@ -46,9 +47,23 @@ class ContributionAdmin(admin.ModelAdmin):
     readonly_fields = ["id"]
     autocomplete_fields = ["author"]
     radio_fields = {"content_type": admin.VERTICAL}
-    list_display = ["id", "author", "order", "percentage", "by_employee"]
+    list_display = [
+        "id",
+        "author",
+        "content_type__name",
+        "object_id",
+        "order",
+        "percentage",
+        "by_employee",
+    ]
     search_fields = ["author__alias"]
 
     @admin.display(description="Pracownik", boolean=True)
     def by_employee(self, obj):
         return obj.author.employee is not None
+
+    @admin.display(
+        description=capfirst(Contribution._meta.get_field("content_type").verbose_name)
+    )
+    def content_type__name(self, obj):
+        return obj.content_type.name
