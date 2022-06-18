@@ -1,8 +1,8 @@
 from django.db import models
 
 
-class AbstractUnit(models.Model):
-    """A class to represent AbstractUnit objects."""
+class Unit(models.Model):
+    """A class to represent abstract Unit objects."""
 
     name = models.CharField(verbose_name="nazwa", max_length=50)
     abbreviation = models.CharField(verbose_name="skrót", max_length=10)
@@ -14,15 +14,15 @@ class AbstractUnit(models.Model):
         return self.name
 
 
-class University(AbstractUnit):
+class University(Unit):
     """A class to represent University objects."""
 
-    class Meta(AbstractUnit.Meta):
+    class Meta(Unit.Meta):
         verbose_name = "uczelnia"
         verbose_name_plural = "uczelnie"
 
 
-class Faculty(AbstractUnit):
+class Faculty(Unit):
     """A class to represent Faculty objects."""
 
     university = models.ForeignKey(
@@ -32,12 +32,12 @@ class Faculty(AbstractUnit):
         related_name="faculties",
     )
 
-    class Meta(AbstractUnit.Meta):
+    class Meta(Unit.Meta):
         verbose_name = "wydział"
         verbose_name_plural = "wydziały"
 
 
-class Department(AbstractUnit):
+class Department(Unit):
     """A class to represent Department objects."""
 
     faculty = models.ForeignKey(
@@ -47,6 +47,6 @@ class Department(AbstractUnit):
         related_name="departments",
     )
 
-    class Meta(AbstractUnit.Meta):
+    class Meta(Unit.Meta):
         verbose_name = "katedra"
         verbose_name_plural = "katedry"
