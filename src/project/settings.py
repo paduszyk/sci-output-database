@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "units",
     "employees",
     "attainments",
+    "extras",
 ]
 
 

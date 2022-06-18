@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 
-from employees.forms import ReadOnlyField
+from extras.forms import ReadOnlyField
 
 from .models import Contribution
 

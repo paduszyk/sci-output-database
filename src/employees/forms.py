@@ -1,21 +1,8 @@
 from django import forms
 
+from extras.forms import ReadOnlyField
+
 from .models import Employee
-from .widgets import ReadOnlyInput
-
-
-class ReadOnlyField(forms.CharField):
-    """A class representing a field for showing read-only data in forms."""
-
-    def __init__(self, **kwargs):
-        kwargs.update(
-            {
-                "required": False,
-                "max_length": 255,
-                "widget": ReadOnlyInput(),
-            }
-        )
-        super().__init__(**kwargs)
 
 
 class EmployeeAdminForm(forms.ModelForm):
