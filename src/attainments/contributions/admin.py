@@ -60,7 +60,7 @@ class ContributionAdmin(admin.ModelAdmin):
 
     @admin.display(description="Pracownik", boolean=True)
     def by_employee(self, obj):
-        return obj.author.employee is not None
+        return obj.by_employee()
 
     @admin.display(
         description=capfirst(Contribution._meta.get_field("content_type").verbose_name)

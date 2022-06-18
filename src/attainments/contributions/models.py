@@ -5,9 +5,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from employees.models import Employee
+from extras.models import ModelMixin
 
 
-class Author(models.Model):
+class Author(ModelMixin, models.Model):
     """A class to represent Author objects."""
 
     employee = models.ForeignKey(
@@ -42,7 +43,7 @@ class Author(models.Model):
             self.alias = self.employee.user.get_short_name()
 
     def is_employed(self):
-        if self.is_employee():
+        if self.employee:
             return hasattr(self.employee, "employment")
 
     @property
@@ -89,3 +90,6 @@ class Contribution(models.Model):
             f"{self.content_type.model_class()._meta.verbose_name} "
             f"(ID={self.object_id})"
         )
+
+    def by_employee(self):
+        return self.author.employee is not None

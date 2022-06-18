@@ -1,4 +1,25 @@
 from django.db import models
+from django.urls import reverse
+
+from .utils import render_link_tag
+
+
+class ModelMixin:
+    """A class to represent extra project-wide utilities for models."""
+
+    def render_admin_change_link(self, content=None, model_admin=None, **attrs):
+        return render_link_tag(
+            reverse(
+                "{}:{}_{}_change".format(
+                    model_admin.admin_site.name if model_admin else "admin",
+                    self._meta.app_label,
+                    self._meta.model_name,
+                ),
+                args=(self.id,),
+            ),
+            content or str(self),
+            **attrs,
+        )
 
 
 class NamedModel(models.Model):

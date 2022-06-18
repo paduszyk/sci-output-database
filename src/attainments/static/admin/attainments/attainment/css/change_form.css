@@ -1,0 +1,7 @@
+a.employee {
+    color: var(--body-fg);
+}
+
+a.author {
+    color: var(--border-color);
+}
