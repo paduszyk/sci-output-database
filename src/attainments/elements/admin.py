@@ -8,7 +8,7 @@ from ..contributions.models import Contribution
 class ContributionInline(GenericTabularInline):
     model = Contribution
     extra = 0
-    autocomplete_fields = ["author"]
+    autocomplete_fields = ["author", "status", "affiliation"]
     ordering = ["order"]
 
 

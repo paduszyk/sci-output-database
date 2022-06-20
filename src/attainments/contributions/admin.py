@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.text import capfirst
 
 from .forms import ContributionAdminForm
-from .models import Author, Contribution
+from .models import Author, Contribution, ContributionStatus
 
 
 @admin.register(Author)
@@ -42,10 +42,21 @@ class ContributionAdmin(admin.ModelAdmin):
                 ]
             },
         ),
-        ("Informacje dodatkowe", {"fields": ["author", "order", "percentage"]}),
+        (
+            "Informacje dodatkowe",
+            {
+                "fields": [
+                    "author",
+                    "order",
+                    "percentage",
+                    "status",
+                    "affiliation",
+                ]
+            },
+        ),
     ]
     readonly_fields = ["id"]
-    autocomplete_fields = ["author"]
+    autocomplete_fields = ["author", "status", "affiliation"]
     radio_fields = {"content_type": admin.VERTICAL}
     list_display = [
         "id",
@@ -55,6 +66,8 @@ class ContributionAdmin(admin.ModelAdmin):
         "order",
         "percentage",
         "by_employee",
+        "status__abbreviation",
+        "affiliation__abbreviation",
     ]
     search_fields = ["author__alias"]
 
@@ -67,3 +80,38 @@ class ContributionAdmin(admin.ModelAdmin):
     )
     def content_type__name(self, obj):
         return obj.content_type.name
+
+    @admin.display(
+        description=capfirst(Contribution._meta.get_field("status").verbose_name),
+        ordering="status__abbreviation",
+    )
+    def status__abbreviation(self, obj):
+        if obj.status:
+            return obj.status.abbreviation
+
+    @admin.display(
+        description=capfirst(Contribution._meta.get_field("affiliation").verbose_name),
+        ordering=[
+            "affiliation__faculty__university__abbreviation",
+            "affiliation__faculty__abbreviation",
+            "affiliation__abbreviation",
+        ],
+    )
+    def affiliation__abbreviation(self, obj):
+        if obj.affiliation:
+            return obj.affiliation.abbreviation
+
+
+@admin.register(ContributionStatus)
+class ContributionStatusAdmin(admin.ModelAdmin):
+    """Admin options for the ContributionStatus model."""
+
+    fieldsets = [
+        (None, {"fields": ["id"]}),
+        ("Informacje podstawowe", {"fields": ["name", "abbreviation"]}),
+    ]
+    readonly_fields = ["id"]
+
+    list_display = ["id", "name", "abbreviation"]
+    search_fields = ["id", "name", "abbreviation"]
+    ordering = ["id"]

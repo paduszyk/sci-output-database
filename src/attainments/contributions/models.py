@@ -5,7 +5,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from employees.models import Employee
-from extras.models import ModelMixin
+from extras.models import ModelMixin, NamedModel
+from units.models import Department
 
 
 class Author(ModelMixin, models.Model):
@@ -58,6 +59,14 @@ class Author(ModelMixin, models.Model):
             return self.employee.employment.department
 
 
+class ContributionStatus(NamedModel):
+    """A class to represent ContributionStatus objects."""
+
+    class Meta:
+        verbose_name = "status udziału"
+        verbose_name_plural = "statusy udziałów"
+
+
 class Contribution(models.Model):
     """A class to represent AbstractContribution objects."""
 
@@ -84,6 +93,22 @@ class Contribution(models.Model):
         verbose_name="udział (%)",
         validators=[MaxValueValidator(100)],
         default=0,
+    )
+    status = models.ForeignKey(
+        to=ContributionStatus,
+        on_delete=models.SET_NULL,
+        verbose_name="status",
+        related_name="contributions",
+        blank=True,
+        null=True,
+    )
+    affiliation = models.ForeignKey(
+        to=Department,
+        on_delete=models.SET_NULL,
+        verbose_name="afiliacja",
+        related_name="contributions",
+        blank=True,
+        null=True,
     )
 
     class Meta:
