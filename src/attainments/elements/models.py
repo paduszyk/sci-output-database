@@ -3,10 +3,12 @@ from django.db import models
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 
+from extras.models import ModelMixin
+
 from ..contributions.models import Contribution
 
 
-class Element(models.Model):
+class Element(ModelMixin, models.Model):
     """A class to represent abstract Element objects."""
 
     title = models.TextField(verbose_name="tytuł")

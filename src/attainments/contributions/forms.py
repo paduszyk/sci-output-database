@@ -26,11 +26,13 @@ class ContributionAdminForm(forms.ModelForm):
         required=True,
         widget=forms.widgets.RadioSelect(attrs={"class": "radiolist"}),
     )
-    object_preview = ReadOnlyField(label="Podgląd obiektu")
+    object_preview = ReadOnlyField(label="Podgląd elementu")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields["object_preview"].initial = (
-            str(self.instance.content_object) if self.instance.pk else "-"
+            self.instance.content_object.render_admin_change_link()
+            if self.instance.pk
+            else "-"
         )
