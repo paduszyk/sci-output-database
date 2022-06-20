@@ -1,9 +1,9 @@
-from ..models import Attainment
+from ..models import Element
 
 
-class Grant(Attainment):
+class Grant(Element):
     """A class to represent Grant objects."""
 
-    class Meta(Attainment.Meta):
+    class Meta(Element.Meta):
         verbose_name = "grant"
         verbose_name_plural = "granty"

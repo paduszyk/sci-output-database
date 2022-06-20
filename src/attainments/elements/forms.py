@@ -3,7 +3,9 @@ from django import forms
 from extras.forms import ReadOnlyField
 
 
-class AttainmentAdminForm(forms.ModelForm):
+class ElementAdminForm(forms.ModelForm):
+    """A class to represent admin change form of the Element model."""
+
     class Meta:
         fields = "__all__"
 

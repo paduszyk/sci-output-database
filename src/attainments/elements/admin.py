@@ -12,8 +12,8 @@ class ContributionInline(GenericTabularInline):
     ordering = ["order"]
 
 
-class AttainmentAdmin(admin.ModelAdmin):
-    """Admin options for the Attainment model."""
+class ElementAdmin(admin.ModelAdmin):
+    """Admin options for the Element model."""
 
     class Media:
         css = {"all": ["admin/attainments/attainment/css/change_form.css"]}

@@ -1,9 +1,9 @@
-from ..models import Attainment
+from ..models import Element
 
 
-class Patent(Attainment):
+class Patent(Element):
     """A class to represent Patent objects."""
 
-    class Meta(Attainment.Meta):
+    class Meta(Element.Meta):
         verbose_name = "patent"
         verbose_name_plural = "patenty"

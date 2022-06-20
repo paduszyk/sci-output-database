@@ -6,8 +6,8 @@ from django.utils.text import Truncator
 from ..contributions.models import Contribution
 
 
-class Attainment(models.Model):
-    """A class to represent abstract Attainment objects."""
+class Element(models.Model):
+    """A class to represent abstract Element objects."""
 
     title = models.TextField(verbose_name="tytuł")
     contributions = GenericRelation(to=Contribution)

@@ -1,9 +1,9 @@
-from ..forms import AttainmentAdminForm
+from ..forms import ElementAdminForm
 from .models import Article
 
 
-class ArticleAdminForm(AttainmentAdminForm):
+class ArticleAdminForm(ElementAdminForm):
     """A class to represent admin change form of the Article model."""
 
-    class Meta(AttainmentAdminForm.Meta):
+    class Meta(ElementAdminForm.Meta):
         model = Article
