@@ -159,7 +159,7 @@ class Employee(models.Model):
 
     def __str__(self):
         return "{}{}".format(
-            self.user.get_full_name(),
+            self.user.get_short_name(),
             f", {self.degree}" if self.degree else "",
         )
 
