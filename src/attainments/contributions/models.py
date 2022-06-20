@@ -31,6 +31,10 @@ class Author(ModelMixin, models.Model):
         ]
 
     def __str__(self):
+        if self.is_employed():
+            return str(self.employee.employment)
+        if self.is_employee():
+            return str(self.employee)
         return self.alias
 
     def clean(self):
@@ -42,9 +46,11 @@ class Author(ModelMixin, models.Model):
         if self.employee and not self.alias:
             self.alias = self.employee.user.get_short_name()
 
+    def is_employee(self):
+        return self.employee is not None
+
     def is_employed(self):
-        if self.employee:
-            return hasattr(self.employee, "employment")
+        return self.employee and hasattr(self.employee, "employment")
 
     @property
     def department(self):

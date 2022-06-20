@@ -214,7 +214,19 @@ class Employment(models.Model):
         verbose_name_plural = "zatrudnienia"
 
     def __str__(self):
-        return "{} ({})".format(
-            self.employee.user.get_full_name(),
-            self.department.abbreviation if self.department else "-",
-        )
+        return "{} {}".format(
+            str(self.employee),
+            f"({', '.join(employment_info.values())})"
+            if (
+                employment_info := {
+                    key: value
+                    for key, field in [
+                        ("position", "name"),
+                        ("subgroup", "abbreviation"),
+                        ("department", "abbreviation"),
+                    ]
+                    if (value := getattr(getattr(self, key), field, None))
+                }
+            )
+            else "",
+        ).strip()
