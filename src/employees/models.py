@@ -19,7 +19,7 @@ class Status(NamedModel):
 class Degree(NamedModel):
     """A class to represent the Degree objects."""
 
-    name = None
+    abbreviation = None
 
     class Meta:
         verbose_name = "tytuł/stopień"
