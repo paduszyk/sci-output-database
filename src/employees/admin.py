@@ -212,7 +212,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "id",
         "user__last_name",
         "user__first_name",
-        "degree__abbreviation",
+        "degree__name",
         "status__abbreviation",
         "in_evaluation_bool",
         "discipline__domain__abbreviation",
@@ -278,11 +278,11 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     @admin.display(
         description=capfirst(Employee._meta.get_field("degree").verbose_name),
-        ordering="degree__abbreviation",
+        ordering="degree__name",
     )
-    def degree__abbreviation(self, obj):
+    def degree__name(self, obj):
         if obj.degree:
-            return obj.degree.abbreviation
+            return obj.degree.name
 
     @admin.display(
         description=capfirst(Employee._meta.get_field("status").verbose_name),
