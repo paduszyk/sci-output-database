@@ -39,12 +39,12 @@ class DegreeAdmin(admin.ModelAdmin):
 
     fieldsets = [
         (None, {"fields": ["id"]}),
-        ("Informacje podstawowe", {"fields": ["abbreviation"]}),
+        ("Informacje podstawowe", {"fields": ["name"]}),
     ]
     readonly_fields = ["id"]
 
-    list_display = ["id", "abbreviation"]
-    search_fields = ["id", "abbreviation"]
+    list_display = ["id", "name"]
+    search_fields = ["id", "name"]
     ordering = ["id"]
 
 
