@@ -1,17 +1,13 @@
 from django.db import models
 
+from extras.models import NamedModel
 
-class Unit(models.Model):
+
+class Unit(NamedModel):
     """A class to represent abstract Unit objects."""
 
-    name = models.CharField(verbose_name="nazwa", max_length=50)
-    abbreviation = models.CharField(verbose_name="skrót", max_length=10)
-
-    class Meta:
+    class Meta(NamedModel.Meta):
         abstract = True
-
-    def __str__(self):
-        return self.name
 
 
 class University(Unit):

@@ -25,8 +25,8 @@ class ModelMixin:
 class NamedModel(models.Model):
     """A class to represent an abstract model with name and abbreviation fields."""
 
-    name = models.CharField("nazwa", max_length=50)
-    abbreviation = models.CharField("skrót", max_length=10)
+    name = models.CharField("nazwa", max_length=100)
+    abbreviation = models.CharField("skrót", max_length=20)
 
     class Meta:
         abstract = True
