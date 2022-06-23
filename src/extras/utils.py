@@ -110,7 +110,11 @@ class Excel2JsonFixtureWriter:
             # Check for missing columns
             missing = [
                 field
-                for field in (field.column for field in fields if not field.null)
+                for field in (
+                    field.column
+                    for field in fields
+                    if not field.blank and field.editable
+                )
                 if field not in df
             ]
             if missing:
@@ -155,7 +159,11 @@ class Excel2JsonFixtureWriter:
                     {
                         "pk": pk,
                         "model": model,
-                        "fields": fields,
+                        "fields": {
+                            key: value
+                            for key, value in fields.items()
+                            if value is not None
+                        },
                     }
                 )
 
