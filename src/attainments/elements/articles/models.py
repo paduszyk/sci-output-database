@@ -47,9 +47,9 @@ class Article(Element):
         related_name="articles",
     )
     year = models.PositiveSmallIntegerField("rok")
-    volume = models.CharField("wolumin", max_length=255, blank=True, null=True)
-    pages = models.CharField("strony", max_length=255, blank=True, null=True)
-    doi = models.CharField("DOI", max_length=255, blank=True, null=True)
+    volume = models.CharField("wolumin", max_length=255, blank=True)
+    pages = models.CharField("strony", max_length=255, blank=True)
+    doi = models.CharField("DOI", max_length=255, blank=True)
     impact_factor = models.DecimalField(
         "IF",
         max_digits=6,
