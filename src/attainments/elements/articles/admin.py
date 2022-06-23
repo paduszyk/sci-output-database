@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.text import capfirst
 
 from ..admin import ElementAdmin
 from .forms import ArticleAdminForm
@@ -10,6 +11,22 @@ class ArticleAdmin(ElementAdmin):
     """Admin options for the Article model."""
 
     form = ArticleAdminForm
+
+    fieldsets = [
+        ("Wydawnictwo", {"fields": ["journal", "year", "volume", "pages", "doi"]}),
+        ("Ewaluacja", {"fields": ["impact_factor_", "points_"]}),
+        ("Informacje dodatkowe", {"fields": ["locked"]}),
+    ]
+    autocomplete_fields = ["journal"]
+
+    list_display = ["year", "journal__abbreviation", "volume", "pages", "locked"]
+
+    @admin.display(
+        description=capfirst(Article._meta.get_field("journal").verbose_name),
+        ordering="journal__abbreviation",
+    )
+    def journal__abbreviation(self, obj):
+        return obj.journal.abbreviation
 
 
 @admin.register(Journal)

@@ -36,12 +36,12 @@ class ElementAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
         if self.list_display == ("__str__",):
             self.list_display = []
-        return ["id", "authors_list_html", "title_html"] + list(self.list_display)
+        return ["id", "authors_list_html", "title"] + list(self.list_display)
 
     @admin.display(description="Tytuł", ordering="title")
     def title_html(self, obj):
         return format_html(obj.title)
 
-    @admin.display(description="Tytuł", ordering="title")
+    @admin.display(description="Autorzy", ordering="title")
     def authors_list_html(self, obj):
         return format_html(obj.authors_list)

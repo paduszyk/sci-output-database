@@ -72,7 +72,7 @@ class Article(Element):
         verbose_name_plural = "artykuły"
 
     def clean(self):
-        if not self.locked:
+        if hasattr(self, "journal") and not self.locked:
             self.impact_factor, self.points = (
                 self.journal.impact_factor,
                 self.journal.points,
